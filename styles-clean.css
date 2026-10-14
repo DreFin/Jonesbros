@@ -1,0 +1,475 @@
+/* ==========================================================
+   JONESBRO'S CONTRACTORS - STYLESHEET
+   Sections:
+   1.  Colors & basic settings
+   2.  Text styles
+   3.  Layout helpers
+   4.  Header & menu
+   5.  Buttons
+   6.  Page switching
+   7.  Home page sections
+   8.  Cards & grids
+   9.  Inner page sections
+   10. Lists, steps & FAQ
+   11. Quote form
+   12. Footer
+   13. Phone / small screen
+   ========================================================== */
+
+
+/* ---------- 1. COLORS & BASIC SETTINGS ----------
+   Change a color here and it updates everywhere on the site. */
+:root {
+  --bg:   #14100c;   /* main dark background */
+  --bg2:  #1f1812;   /* slightly lighter background for alternating sections */
+  --card: #2a2018;   /* box/card background */
+  --gold:  #ffb81c;  /* main brand color */
+  --gold2: #ff8a1f;  /* orange, used when hovering */
+  --rust:  #a8431e;  /* accent color */
+  --tx:   #f4ece0;   /* main text color */
+  --mut:  #b9a995;   /* softer text color for descriptions */
+
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);       /* keeps content clear of phone notches */
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;   /* padding never makes boxes wider than set */
+}
+
+html {
+  scroll-behavior: smooth;   /* smooth scrolling */
+  scroll-padding-top: 90px;  /* leaves room for the sticky header */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--tx);
+  font: 17px/1.65 'Barlow', Arial, sans-serif;  /* size / line height / font */
+}
+
+
+/* ---------- 2. TEXT STYLES ---------- */
+h1, h2, h3 {
+  font-family: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+  text-transform: uppercase;
+  line-height: 1.02;
+  letter-spacing: 0.01em;
+  margin: 0 0 0.5em;
+}
+
+h1 { font-size: clamp(2.8rem, 7vw, 5.6rem); font-weight: 800; }                    /* page titles, shrinks on phones */
+h2 { font-size: clamp(2rem, 4.5vw, 3.4rem); font-weight: 800; color: var(--gold); } /* section headings */
+h3 { font-size: 1.6rem; font-weight: 700; }                                         /* card headings */
+
+a { color: inherit; }
+
+.note {                       /* small gray helper text */
+  font-size: 0.9rem;
+  color: var(--mut);
+}
+
+/* Keyboard focus outline, helps accessibility */
+a:focus-visible, button:focus-visible, input:focus-visible,
+select:focus-visible, textarea:focus-visible {
+  outline: 3px solid var(--gold);
+  outline-offset: 2px;
+}
+
+
+/* ---------- 3. LAYOUT HELPERS ---------- */
+.wrap {                       /* centers content, max width 1180px */
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 22px;
+}
+
+.row {                        /* a row of buttons */
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-top: 26px;
+}
+
+section.s { padding: 70px 0; }          /* standard section spacing */
+.alt-bg   { background: var(--bg2); }  /* alternate background color */
+
+.grid {                       /* auto-fitting columns for cards */
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 22px;
+}
+
+.two {                        /* text block layout on inner pages */
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 44px;
+  align-items: center;
+}
+
+
+/* ---------- 4. HEADER & MENU ---------- */
+header {                      /* sticky top bar */
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(20, 16, 12, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 3px solid var(--gold);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 74px;
+}
+
+.brand {                      /* company name in header and footer */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+  text-transform: uppercase;
+  color: var(--gold);
+  font: 800 1.4rem 'Barlow Condensed', sans-serif;
+}
+
+.brand svg {                  /* logo in the top left */
+  display: block;
+  height: 58px;
+  width: auto;
+}
+
+nav ul {                      /* menu list laid out in a row */
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav a {                       /* each menu link */
+  display: block;
+  padding: 9px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font: 700 1.05rem 'Barlow Condensed', sans-serif;
+}
+
+nav a:hover,
+nav a.on { color: var(--gold); }   /* hovered or current page */
+
+nav a.cta {                   /* "Free Quote" menu button */
+  background: var(--gold);
+  color: #1a1008;
+  margin-left: 6px;
+}
+nav a.cta:hover { background: var(--gold2); color: #1a1008; }
+
+/* Services dropdown */
+.sub { position: relative; }
+.sub > div {
+  display: none;              /* hidden until hover */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 220px;
+  padding: 6px;
+  background: var(--bg2);
+  border: 1px solid var(--gold);
+}
+.sub:hover > div,
+.sub:focus-within > div { display: block; }
+
+/* Phone menu button (hidden on desktop) */
+#mb {
+  display: none;
+  padding: 8px 14px;
+  background: none;
+  color: var(--gold);
+  border: 2px solid var(--gold);
+  border-radius: 4px;
+  font: 700 1rem 'Barlow Condensed';
+}
+
+
+/* ---------- 5. BUTTONS ---------- */
+.btn {
+  display: inline-block;
+  padding: 14px 28px;
+  background: var(--gold);
+  color: #1a1008;
+  border: 0;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font: 800 1.2rem 'Barlow Condensed', sans-serif;
+  transition: background 0.2s;
+  /* cuts two corners for a "construction" look */
+  clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+}
+.btn:hover { background: var(--gold2); }
+
+.btn.alt {                    /* outline version */
+  background: transparent;
+  color: var(--gold);
+  box-shadow: inset 0 0 0 2px var(--gold);
+}
+
+
+/* ---------- 6. PAGE SWITCHING ----------
+   Only the page matching the link you clicked gets .show. */
+.page { display: none; min-height: 70vh; }
+.page.show { display: block; animation: fade-in 0.35s ease; }
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Turns off motion for people who prefer less animation */
+@media (prefers-reduced-motion: reduce) {
+  .page.show { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+
+/* ---------- 7. HOME PAGE SECTIONS ---------- */
+.hero {                       /* big opening section */
+  display: grid;
+  grid-template-columns: 1fr 1fr;   /* text + picture side by side */
+  gap: 44px;
+  align-items: center;
+  padding: 70px 0;
+  background: radial-gradient(900px 400px at 85% 10%, rgba(255, 138, 31, 0.22), transparent 70%);
+}
+.hero p {
+  max-width: 34em;
+  font-size: 1.2rem;
+  color: var(--mut);
+}
+
+.hero-pic {                   /* frame around the hero picture */
+  display: grid;                      /* photo and J share the same spot */
+  place-items: center;
+  width: 100%;
+  max-width: 380px;
+  aspect-ratio: 4 / 5;                /* tidy tall box */
+  background: var(--card);
+  border: 3px solid var(--gold);
+  box-shadow: 8px 8px 0 var(--rust);
+}
+.hero-pic > * { grid-area: 1 / 1; }   /* stack both in the same cell */
+
+.hero-img {                   /* MAIN image: the detour photo (on top) */
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                  /* crops instead of stretching */
+}
+
+.hero-alt {                   /* ALTERNATE image: the J logo (underneath) */
+  width: 60%;
+  height: auto;
+}
+
+.band {                       /* gold strip with 4 promises */
+  background: var(--gold);
+  color: #1a1008;
+}
+.band .wrap {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+.band b {
+  display: block;
+  text-transform: uppercase;
+  font: 800 1.6rem 'Barlow Condensed';
+}
+.band span { font-weight: 600; font-size: 0.95rem; }
+
+.cta-b {                      /* "Have a project in mind?" banner */
+  padding: 56px 0;
+  background: linear-gradient(100deg, var(--rust), var(--gold2));
+  color: #1a1008;
+}
+.cta-b h2 { color: #1a1008; margin: 0; }
+.cta-b .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+}
+.cta-b .btn { background: #14100c; color: var(--gold); }
+
+
+/* ---------- 8. CARDS & GRIDS ---------- */
+.card {                       /* basic content box */
+  padding: 26px;
+  background: var(--card);
+  border-top: 5px solid var(--gold);
+}
+.card p { margin: 0; color: var(--mut); }
+
+.ph {                         /* clickable service card */
+  display: block;
+  overflow: hidden;
+  text-decoration: none;
+  background: var(--card);
+  border-bottom: 6px solid var(--gold);
+}
+.ph h3 { margin: 0; padding: 16px 18px 2px; color: var(--gold); }
+.ph p  { margin: 0; padding: 0 18px 18px; color: var(--mut); }
+
+
+/* ---------- 9. INNER PAGE SECTIONS ---------- */
+.ph-hd {                      /* title area at top of each inner page */
+  padding: 70px 0 40px;
+  background: linear-gradient(120deg, var(--bg2), #2a160b);
+}
+.ph-hd p {
+  max-width: 40em;
+  font-size: 1.15rem;
+  color: var(--mut);
+}
+
+
+/* ---------- 10. LISTS, STEPS & FAQ ---------- */
+ul.chk {                      /* checkmark list */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+ul.chk li {
+  position: relative;
+  padding: 9px 0 9px 34px;
+  border-bottom: 1px solid #3a2e22;
+}
+ul.chk li::before {           /* the gold check circle */
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 9px;
+  width: 24px;
+  height: 24px;
+  background: var(--gold);
+  color: #1a1008;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 24px;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.steps { counter-reset: step; }   /* numbered process cards */
+.steps .card { position: relative; padding-top: 52px; }
+.steps .card::before {
+  counter-increment: step;
+  content: counter(step);         /* auto numbers: 1, 2, 3... */
+  position: absolute;
+  top: -6px;
+  left: 22px;
+  width: 46px;
+  height: 46px;
+  background: var(--gold);
+  color: #1a1008;
+  text-align: center;
+  line-height: 46px;
+  font: 800 1.7rem 'Barlow Condensed';
+}
+
+details {                     /* FAQ questions */
+  margin-bottom: 10px;
+  background: var(--card);
+  border-left: 5px solid var(--gold);
+}
+summary {
+  padding: 18px 22px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font: 700 1.3rem 'Barlow Condensed', sans-serif;
+}
+details p { margin: 0; padding: 0 22px 18px; color: var(--mut); }
+
+
+/* ---------- 11. QUOTE FORM ---------- */
+form  { display: grid; gap: 14px; }
+label { display: grid; gap: 5px; font-weight: 600; }
+
+input, select, textarea {
+  width: 100%;
+  padding: 13px;
+  background: #0f0b08;
+  color: var(--tx);
+  border: 2px solid #4a3a2a;
+  border-radius: 0;
+  font: inherit;
+}
+
+
+/* ---------- 12. FOOTER ---------- */
+footer {
+  padding: 50px 0 24px;
+  background: #0c0906;
+  border-top: 4px solid var(--gold);
+}
+footer .grid { grid-template-columns: 2fr 1fr 1fr 1.3fr; }   /* 4 footer columns */
+footer h3 { font-size: 1.2rem; color: var(--gold); }
+footer a {
+  display: block;
+  padding: 3px 0;
+  color: var(--mut);
+  text-decoration: none;
+}
+footer a:hover { color: var(--gold); }
+
+.copy {                       /* copyright line */
+  margin-top: 30px;
+  padding-top: 18px;
+  border-top: 1px solid #2c2218;
+  font-size: 0.9rem;
+  color: var(--mut);
+}
+
+
+/* ---------- 13. PHONE / SMALL SCREEN (900px and under) ---------- */
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; }               /* picture stacks under text */
+  .band .wrap  { grid-template-columns: 1fr 1fr; }   /* promises: 2 per row */
+  footer .grid { grid-template-columns: 1fr 1fr; }   /* footer: 2 columns */
+
+  #mb { display: block; }                            /* show Menu button */
+
+  nav {                                              /* menu becomes a dropdown panel */
+    display: none;
+    position: absolute;
+    top: 74px;
+    left: 0;
+    right: 0;
+    padding: 10px 22px;
+    background: var(--bg);
+    border-bottom: 3px solid var(--gold);
+  }
+  nav.open { display: block; }                       /* shown when Menu is tapped */
+  nav ul   { flex-direction: column; align-items: stretch; }
+  nav a.cta { margin: 6px 0 0; text-align: center; }
+
+  .sub > div {                                       /* dropdown shows inline */
+    display: block;
+    position: static;
+    padding-left: 14px;
+    border: 0;
+  }
+}
